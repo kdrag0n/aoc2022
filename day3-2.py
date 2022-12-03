@@ -16,20 +16,18 @@ result = 0
 other = 0
 
 while True:
-    for l in file_lines:
-        # half of line
-        l1 = l[:len(l)//2]
-        # other half of line
-        l2 = l[len(l)//2:]
-
-        common = list(set(l1).intersection(set(l2)))[0]
+    for i in range(0, len(file_lines), 3):
+        l1 = file_lines[i]
+        l2 = file_lines[i+1]
+        l3 = file_lines[i+2]
+        common = list(set(l1).intersection(set(l2)).intersection(set(l3)))[0]
         # a-z -> 1-26
         if common in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
-            result += ord(common) - 64 + 26
-            print('common', common,  ord(common) - 64)
+            result += ord(common) - ord('A') + 1 + 26
+            print('common', common,  ord(common) - ord('A') + 1)
         else:
-            result += ord(common) - 96
-            print('common', common,  ord(common) - 96 + 26)
+            result += ord(common) - ord('a') + 1
+            print('common', common,  ord(common) - ord('a') + 1 + 26)
 
         if False:
             total += 1
