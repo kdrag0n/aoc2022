@@ -1,0 +1,7 @@
+.token
+in/
+samples/
+venv/
+bits/
+.vscode/
+d
