@@ -20,11 +20,10 @@ while True:
         l1, l2 = l.split(',')
         start1, end1 = ints(l1.split('-'))
         start2, end2 = ints(l2.split('-'))
-        # check if start1-end1 is enclosed by start2-end2
-        if start1 >= start2 and end1 <= end2:
+        # check if any overlap
+        if start1 <= end2 and start2 <= end1:
             total += 1
-        # check if start2-end2 is enclosed by start1-end1
-        elif start2 >= start1 and end2 <= end1:
+        elif start2 <= end1 and start1 <= end2:
             total += 1
 
         if False:
