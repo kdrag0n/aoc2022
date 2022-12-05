@@ -39,7 +39,7 @@ while True:
             print(count, frm, to)
             frm -= 1
             to -= 1
-            stacks[to].extend(stacks[frm][-count:][::-1])
+            stacks[to].extend(stacks[frm][-count:])
             stacks[frm] = stacks[frm][:-count]
             print(stacks)
     
