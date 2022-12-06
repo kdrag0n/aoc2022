@@ -18,9 +18,9 @@ other = 0
 while True:
     for l in file_lines:
         for i, ch in enumerate(l):
-            if i < 3: continue
-            # get leading 4 chars
-            chs = l[i-3:i+1]
+            if i < 13: continue
+            # get leading 14 chars
+            chs = l[i-13:i+1]
             print('chs', chs)
             if sorted(list(set(chs))) == sorted(list(chs)):
                 print(i+1)
