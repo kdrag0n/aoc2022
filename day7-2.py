@@ -9,6 +9,10 @@ with open(sys.argv[1], 'r') as f:
     file_lines = [l for l in f.read().strip().split('\n')]
 
 
+
+TOTAL = 70000000
+TARGET = 30000000
+
 in_nums = []
 
 total = 0
@@ -58,8 +62,10 @@ def get_size(node):
     else:
         return sum([get_size(n) for n in node.values()])
 
+dir_szs = []
 def recurse(root):
     global total
+    global dir_szs
     for name, node in root.items():
         if type(node) == int:
             continue
@@ -67,7 +73,16 @@ def recurse(root):
             recurse(node)
             if get_size(node) <= 100000:
                 total += get_size(node)
+            dir_szs += [(node, get_size(node))]
 recurse(fs)
+dir_szs = sorted(dir_szs, key=lambda x: x[1], reverse=False)
+USED = get_size(fs)
+for node, sz in dir_szs:
+    print('opt', sz)
+    free = TOTAL - USED
+    if free + sz >= TARGET:
+        result += sz
+        break
 
 print(f'Total: {total}')
 print(f'Result: {result}')
