@@ -28,14 +28,13 @@ def print_gr():
     print('\n'.join(''.join(l) for l in gr3))
     print()
 sp = (SIZE//2, SIZE//2)
-hp = sp
-tp = sp
+knots = [sp] * 10
 visited = set()
 import math
-def update_tail():
-    global tp
-    hx, hy = hp
-    tx, ty = tp
+def update_tail(i):
+    #global tp
+    hx, hy = knots[i + 1]
+    tx, ty = knots[i]
     dx = hx - tx
     dy = hy - ty
     # if dx > 1 
@@ -65,8 +64,16 @@ def update_tail():
             else:
                 ty -= 1
     tp = (tx, ty)
-    visited.add(tp)
+    knots[i] = tp
+    if i == 0:
+        visited.add(tp)
     print_gr()
+def update_tails():
+    for i in range(len(knots) - 2, -1, -1):
+        update_tail(i)
+def set_dhead(dx, dy):
+    hp = knots[-1]
+    knots[-1] = (hp[0] + dx, hp[1] + dy)
 while True:
     for l in file_lines:
         dir, n = l.split()
@@ -74,20 +81,20 @@ while True:
         print(dir, n)
         if dir == 'R':
             for _ in range(n):
-                hp = (hp[0] + 1, hp[1])
-                update_tail()
+                set_dhead(1, 0)
+                update_tails()
         elif dir == 'L':
             for _ in range(n):
-                hp = (hp[0] - 1, hp[1])
-                update_tail()
+                set_dhead(-1, 0)
+                update_tails()
         elif dir == 'U':
             for _ in range(n):
-                hp = (hp[0], hp[1] - 1)
-                update_tail()
+                set_dhead(0, -1)
+                update_tails()
         elif dir == 'D':
             for _ in range(n):
-                hp = (hp[0], hp[1] + 1)
-                update_tail()
+                set_dhead(0, 1)
+                update_tails()
 
         if False:
             total += 1
