@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
-
+import math
 def ints(itr):
     return [int(i) for i in itr]
 
@@ -42,26 +42,47 @@ while True:
 
 
 inscs = [0] * len(mks)
-for _ in range(20):
+for _ in range(10000):
+    if _ % 100 == 0:
+        print(_)
+        #print(mks)
+    _gcd=math.gcd(*[mk['testn'] for mk in mks])
+    gc2=1
+    for mk in mks:
+        gc2 *= mk['testn']
     for mi, mk in enumerate(mks):
-        print(f'Monkey {mi}')
+        #print(f'Monkey {mi}')
         for item in list(mk['items']):
-            print(f'  Item {item}')
+            #print(f'  Item {item}')
             old = item
-            new = -1
-            exec(mk['op'])
+            new = old
+            #new %= mk['testn']
+            #new %= 10000000000
             inscs[mi] +=1
-            new //= 3
-            print(f' . worry {old} ->{new}')
-            if new % mk['testn'] == 0:
+            #print(f' . worry {old} ->{new}')
+            # if mk['op'] == 'new = old * old':
+            #     print('ns')
+            #     k = mk['testn']
+            #     g = math.gcd(old, mk['testn'])
+            #     k //= g
+            #     if old % k == 0:
+            #         cond = True
+            #     else:
+            #         cond = False
+            #     new = old % mk['testn']
+            # else:
+            exec(mk['op'])
+            cond = new % mk['testn'] == 0
+            new %= gc2
+            if cond:
                 to = mk['to_true']
             else:
                 to = mk['to_false']
-            print(f' . to {to}')
+            #print(f' . to {to}')
             mks[to]['items'].append(new)
-            mks[mi]['items'] = mks[mi]['items'][1:]
+        mks[mi]['items'] = []
 
-print(inscs)
+#print(inscs)
 a, b=sorted(inscs)[-2:]
 print(a*b)
 
