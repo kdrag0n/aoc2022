@@ -72,20 +72,28 @@ for y,row in enumerate(gr):
 # print(min(paths))
 
 from heapq import *
-heap=[]
-dist = {n: 2147483647 for n in nodes}
-dist[start_node] = 0
-heappush(heap, (0, start_node))
-while heap:
-    d, node = heappop(heap)
-    if d > dist[node]:
-        continue
-    for neigh in graph[node]:
-        if neigh[2] <= node[2]+1:
-            if dist[neigh] > dist[node] + 1:
-                dist[neigh] = dist[node] + 1
-                heappush(heap, (dist[neigh], neigh))
-print(dist[end_node])
+def dijkstra(start_node):
+    heap=[]
+    dist = {n: 2147483647 for n in nodes}
+    dist[start_node] = 0
+    heappush(heap, (0, start_node))
+    while heap:
+        d, node = heappop(heap)
+        if d > dist[node]:
+            continue
+        for neigh in graph[node]:
+            if neigh[2] <= node[2]+1:
+                if dist[neigh] > dist[node] + 1:
+                    dist[neigh] = dist[node] + 1
+                    heappush(heap, (dist[neigh], neigh))
+    return dist[end_node]
+
+
+ps=[]
+for n in nodes:
+    if n[2] == 0:
+        ps+=[dijkstra(n)]
+print(min(ps))
 print(f'Total: {total}')
 print(f'Result: {result}')
 print(f'Other: {other}')
