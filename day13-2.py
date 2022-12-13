@@ -14,7 +14,7 @@ in_nums = []
 total = 0
 result = 0
 other = 0
-
+pkts=[]
 def cmp(l,r):
     print(l,r)
     if isinstance(l, int) and isinstance(r, int):
@@ -57,10 +57,26 @@ while True:
             other+=i+1
         else:
             print('UNDEF')
+        pkts+=[l,r]
 
     break
 
-
+def scmp(lhs,rhs):
+    res=cmp(lhs,rhs)
+    if res == True:
+        return -1
+    elif res == False:
+        return 1
+    else:
+        return 0
+import functools
+pkts+=[
+    [[2]],
+    [[6]],
+]
+srt=sorted(pkts,key=functools.cmp_to_key(scmp))
+print(srt)
+print((srt.index([[2]])+1)*(srt.index([[6]])+1))
 
 print(f'Total: {total}')
 print(f'Result: {result}')
