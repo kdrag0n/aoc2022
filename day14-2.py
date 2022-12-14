@@ -47,30 +47,33 @@ while True:
 sp=(500,0)
 sc=0
 steps=0
+ylim=my+2
 while True:
     x,y = sp
-    if (y > my and x > mx) or (steps > 10000000):
-        break
+    # if (y > my and x > mx) or (steps > 10000000):
+    #     break
     steps+=1
     down_y = y+1
-    if (x,down_y) not in gr:
+    if (x,down_y) not in gr and down_y < ylim:
         sp=(x,down_y)
         continue
     else:
         # down, left
-        if (x-1,down_y) not in gr:
+        if (x-1,down_y) not in gr and down_y < ylim:
             sp=(x-1,down_y)
             continue
-        elif (x+1,down_y) not in gr:
+        elif (x+1,down_y) not in gr and down_y < ylim:
             sp=(x+1,down_y)
             continue
         else:
             # blocked
+            if sp == (500,0):
+                break
             gr[sp] = 'o'
             sc+=1
             sp=(500,0)
 #print(sum(1 for k,v in gr.items() if v == 'o' else 0))
-print(sc)
+print(sc+1)
 print(f'Total: {total}')
 print(f'Result: {result}')
 print(f'Other: {other}')
