@@ -33,20 +33,23 @@ rocks='''####
 ##'''.split('\n\n')
 rocks=[[list(s) for s in r.split('\n')[::-1]] for r in rocks]
 
-grid=[['.']*7 for i in range(17000)]
+grid=[['.']*7 for i in range(25000)]
 maxy=len(grid)
 ptn=list(file_lines[0])
 fell=0
 j=0
 import copy
-for i in range(2022):
+last_height=0
+for i in range(5000):
     rk=rocks[i%len(rocks)]
     w=len(rk[0])
     h=len(rk)
     x0=2
     y0=maxy-4
     done=False
-    print('rock',i)
+    #if i%1000==0:
+        #print('rock',i)
+        #print(i+1,len(grid)-maxy)
     def printg():
         return
         gridc = copy.deepcopy(grid)
@@ -60,10 +63,10 @@ for i in range(2022):
         dir=ptn[j%len(ptn)]
         old_x0=x0
         x0 += 1 if dir=='>' else -1
-        if dir=='>':
-            print('right')
-        else:
-            print('left')
+        # if dir=='>':
+        #     print('right')
+        # else:
+        #     print('left')
         j+=1
         done2=False
         for cy,row in enumerate(rk):
@@ -71,7 +74,7 @@ for i in range(2022):
                 #print(x0+cx,y0-cy)
                 if ch!='.' and (x0+cx < 0 or x0+cx >= 7 or grid[y0-cy][x0+cx] != '.' ):
                     # collided
-                    print('x collide')
+                    #print('x collide')
                     done2=True
                     break
             if done2: break
@@ -79,14 +82,14 @@ for i in range(2022):
             x0 = old_x0
         printg()
 
-        print('fall')
+        #print('fall')
         y0+=1
         for cy,row in enumerate(rk):
             for cx,ch in enumerate(row):
                 #print(x0+cx,y0-cy)
                 if ch!='.' and (y0-cy < 0 or y0-cy>=len(grid) or grid[y0-cy][x0+cx] != '.' ):
                     # collided
-                    print('y collide')
+                    #print('y collide')
                     fell+=1
                     y0-=1
                     done=True
@@ -94,7 +97,7 @@ for i in range(2022):
             if done: break
         if done: break
         printg()
-        print('[loop]')
+        #print('[loop]')
     if done:
         # dir=ptn[j]
         # old_x0=x0
@@ -124,7 +127,10 @@ for i in range(2022):
             if '#' in row:
                 maxy=len(grid)-1-y
     #print('\n'.join(''.join(r) for r in grid))
-
+    height=len(grid)-maxy
+    print(f'{i+1},{len(grid)-maxy}')#  d={height-last_height}')
+    last_height=height
+exit()
 print('ans')
 #print(maxy)
 print(len(grid)-maxy)
