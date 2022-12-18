@@ -15,16 +15,22 @@ total = 0
 result = 0
 other = 0
 
+gr=set()
 while True:
     for l in file_lines:
-        l1, l2 = l.split()
-
-        if False:
-            total += 1
+        x,y,z=l.split(',')
+        x,y,z=ints([x,y,z])
+        gr.add((x,y,z))
 
     break
 
-
+dsides=[(0,0,1),(0,0,-1),(0,1,0),(0,-1,0),(1,0,0),(-1,0,0)]
+for x,y,z in gr:
+    con=0
+    for dx,dy,dz in dsides:
+        if (x+dx,y+dy,z+dz) in gr:
+            total-=1
+    total+=
 
 print(f'Total: {total}')
 print(f'Result: {result}')
