@@ -27,7 +27,7 @@ while True:
             total += 1
 
     break
-
+bps=bps[:3]
 # print(bps)
 # def run_bp(bp):
 #     ore_cost, clay_cost, obs_cost1, obs_cost2, geo_cost1, geo_cost2 = bp
@@ -83,7 +83,7 @@ maxore = max(ore_cost, clay_cost, obs_cost1, geo_cost1)
 maxclay = obs_cost2
 maxobs = geo_cost2
 def run_step(time, ores, clays, obs, geos, orebots, claybots, obsbots, geobots):
-    if time == 24: return geos
+    if time == 32: return geos
     #print(f'min {time}')
     maxr = -100
     if ores >= geo_cost1 and obs >= geo_cost2:
@@ -108,6 +108,7 @@ def run_step(time, ores, clays, obs, geos, orebots, claybots, obsbots, geobots):
     return maxr
 
 #print(run_step(0, 0, 0, 0, 0, 1, 0, 0, 0))
+total=1
 for i,bp in enumerate(bps):
     bpid=i+1
     print('bp',bpid)
@@ -116,7 +117,7 @@ for i,bp in enumerate(bps):
     maxclay = obs_cost2
     maxobs = geo_cost2
     geode = run_step(0, 0, 0, 0, 0, 1, 0, 0, 0)
-    total+=bpid*geode
+    total*=geode
 print(f'Total: {total}')
 print(f'Result: {result}')
 print(f'Other: {other}')
