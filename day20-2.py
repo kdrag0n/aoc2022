@@ -25,6 +25,7 @@ class Node:
         return f'Node({self.val}, {self.next})'
 
 ns=ints(file_lines)
+ns=[n*811589153 for n in ns]
 ons=ns
 nodes = [Node(v) for v in ons]
 zid=ns.index(0)
@@ -32,37 +33,37 @@ zid=ns.index(0)
 ns=[(n,i) for i,n in enumerate(ns)]
 idmap={i:ns[i][0] for i in range(len(ns))}
 
-# print('init',[n[0] for n in ns])
-# for id in range(len(ns)):
-#     exp=(idmap[id],id)
-#     i = ns.index(exp)
-#     val,_=exp
-#     new_i = i+val
-#     new_i %= len(ns)
-#     # if val>0:
-#     #     new_i += 1
-#     if val == 0:continue
-#     #print('new_i',new_i)
-#     # move to new_i in ns
-#     #print('move',val,'from',i,'to',new_i,'before',ns[new_i][0],'after',ns[new_i+1][0])
-#     old_exp='asd'
-#     ns[i]=old_exp
-#     ns.remove(old_exp)
-#     if val<0:
-#         new_i -= 1
-#     new_i %= len(ns)
-#     ns.insert(new_i,exp)
-#     # ns.remove(exp)
-#     # if new_i > i:
-#     #     new_i -= 1
-#     # ns.insert(new_i+1,exp)
-#     #print('step',id,[n[0] for n in ns])
-# #print('end',[n[0] for n in ns])
-# zi=ns.index((0,zid))
-# print('n1',ns[(zi+1000)%len(ns)][0])
-# print('n2',ns[(zi+2000)%len(ns)][0])
-# print('n3',ns[(zi+3000)%len(ns)][0])
-# total=ns[(zi+1000)%len(ns)][0]+ns[(zi+2000)%len(ns)][0]+ns[(zi+3000)%len(ns)][0]
+print('init',[n[0] for n in ns])
+for id in range(len(ns)):
+    exp=(idmap[id],id)
+    i = ns.index(exp)
+    val,_=exp
+    new_i = i+val
+    new_i %= len(ns)
+    # if val>0:
+    #     new_i += 1
+    if val == 0:continue
+    #print('new_i',new_i)
+    # move to new_i in ns
+    #print('move',val,'from',i,'to',new_i,'before',ns[new_i][0],'after',ns[new_i+1][0])
+    old_exp='asd'
+    ns[i]=old_exp
+    ns.remove(old_exp)
+    if val<0:
+        new_i -= 1
+    new_i %= len(ns)
+    ns.insert(new_i,exp)
+    # ns.remove(exp)
+    # if new_i > i:
+    #     new_i -= 1
+    # ns.insert(new_i+1,exp)
+    #print('step',id,[n[0] for n in ns])
+#print('end',[n[0] for n in ns])
+zi=ns.index((0,zid))
+print('n1',ns[(zi+1000)%len(ns)][0])
+print('n2',ns[(zi+2000)%len(ns)][0])
+print('n3',ns[(zi+3000)%len(ns)][0])
+total=ns[(zi+1000)%len(ns)][0]+ns[(zi+2000)%len(ns)][0]+ns[(zi+3000)%len(ns)][0]
 
 def print_list(start):
     cur = start
@@ -75,49 +76,52 @@ for i in range(len(nodes)):
     nodes[i].next = nodes[(i+1)%len(nodes)]
     nodes[i].prev = nodes[(i-1)%len(nodes)]
 znode=nodes[zid]
-for node in vnodes:
-    val=node.val
-    print('curv',val)
-    #if val<0: val = -val
+for _ in range(10):
+    for node in vnodes:
+        val=node.val
+        #print('curv',val)
+        #if val<0: val = -val
 
-    if val == 0:
-        continue
+        newlen=len(vnodes)-1
+        count=abs(val)%newlen
+        if count == 0:
+            continue
 
-    cur=node
-    before_cur=cur.prev
-    after_cur=cur.next
-
-    before_cur.next=after_cur
-    after_cur.prev=before_cur
-
-    tgt = node
-    newlen=len(vnodes)+2
-    if val>0:
-        for i in range(val):
-            tgt = tgt.next
-    else:
-        for i in range((-val)+1):
-            tgt = tgt.prev
-    #print_list(znode)
-
-    # move node to tgt
-    # node.prev.next = node.next
-    # node.next.prev = node.prev
-    # node.next = tgt.next
-    # node.prev = tgt
-    # tgt.next.prev = node
-    # tgt.next = node
-    cur=node
-    before_cur=cur.prev
-    after_cur=cur.next
-    before_tgt=tgt.prev
-    after_tgt=tgt.next
+        cur=node
+        before_cur=cur.prev
+        after_cur=cur.next
 
 
-    tgt.next=cur
-    cur.prev=tgt
-    cur.next=after_tgt
-    after_tgt.prev=cur
+        before_cur.next=after_cur
+        after_cur.prev=before_cur
+
+        tgt = node
+        if val>0:
+            for i in range(count):
+                tgt = tgt.next
+        else:
+            for i in range(count+1):
+                tgt = tgt.prev
+        #print_list(znode)
+
+        # move node to tgt
+        # node.prev.next = node.next
+        # node.next.prev = node.prev
+        # node.next = tgt.next
+        # node.prev = tgt
+        # tgt.next.prev = node
+        # tgt.next = node
+        cur=node
+        before_cur=cur.prev
+        after_cur=cur.next
+        before_tgt=tgt.prev
+        after_tgt=tgt.next
+
+        tgt.next=cur
+        cur.prev=tgt
+        cur.next=after_tgt
+        after_tgt.prev=cur
+
 #print_list(znode)
 
 def find_at(i):

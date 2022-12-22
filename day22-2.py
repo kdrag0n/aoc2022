@@ -17,6 +17,24 @@ for y,l in enumerate(file_lines[0].split('\n')):
             grid[(x,y)]='#'
         elif c=='.':
             grid[(x,y)]='.'
+SIZE=4
+graph={
+    1: [2, 6, 4, 3],
+    2: [1, 3, 5, 6],
+    3: [1, 4, 5, 2],
+    4: [1, 6, 5, 3],
+    5: [4, 6, 2, 3],
+    6: [4, 1, 2, 5]
+}
+#minx maxx miny maxy
+bounds = {
+    1: (8, 12, 0, 4),
+    2: (0, 4, 4, 8),
+    3: (4, 8, 4, 8),
+    4: (8, 12, 4, 8),
+    5: (8, 12, 8, 12),
+    6: (12, 16, 8, 12),
+}
 # 0: up
 # 1: right
 # 2: down
@@ -38,6 +56,7 @@ def print_grid(pos):
         print(''.join(l))
 path=file_lines[1].strip()
 print_grid(None)
+face=1
 while path:
     print('rem path',path)
         # extract leading int
@@ -55,6 +74,10 @@ while path:
         npos=(pos[0]+dx,pos[1]+dy)
         nx,ny=npos
         if npos not in grid:
+            wrapto=graph[face][dir]
+            dirfrom=graph[wrapto].index(face)
+            newdir=(dirfrom+2)%4
+
             # wrap
             if dx!=0:
                 minx=100000

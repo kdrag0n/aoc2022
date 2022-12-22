@@ -6,3 +6,4 @@ bits/
 .vscode/
 d
 venv
+.DS_Store
