@@ -33,7 +33,8 @@ rules=[
     ('E','NE','SE'),
 ]
 import collections
-for _ in range(10):
+rs=1
+while True:
     moves=[]
     targets=collections.defaultdict(lambda: 0)
     for x,y in grid:
@@ -61,7 +62,11 @@ for _ in range(10):
         grid.add((tx,ty))
     frule=rules[0]
     rules = rules[1:]+[frule]
-
+    if not moves:
+        break
+    rs+=1
+print('f',rs)
+exit(1)
 minx,miny,maxx,maxy=0,0,0,0
 for x,y in grid:
     minx=min(minx,x)
